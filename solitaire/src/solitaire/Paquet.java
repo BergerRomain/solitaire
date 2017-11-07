@@ -1,6 +1,8 @@
 package solitaire;
 
-public class Paquet 
+import java.util.ArrayList;
+
+public class Paquet extends ArrayList<Carte>
 {
 
 }

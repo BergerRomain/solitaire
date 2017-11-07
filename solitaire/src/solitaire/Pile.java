@@ -1,5 +1,8 @@
 package solitaire;
 
-public class Pile {
+import java.util.ArrayList;
+
+public class Pile extends ArrayList<Carte>
+{
 
 }
