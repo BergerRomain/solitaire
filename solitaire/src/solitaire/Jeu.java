@@ -1,6 +1,7 @@
 package solitaire;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 public class Jeu 
@@ -27,19 +28,13 @@ public class Jeu
 				a="trefle";
 			if(i==3)
 				a="pique";
-			for(int y=1;y<=10;y++)
+			for(int y=1;y<=13;y++)
 			{
-				String num=Integer.toString(y);
-				Carte carte = new Carte(num,a);
+				Carte carte = new Carte(y,a,false);
 				pioche.add(carte);
 			}
-			Carte carte = new Carte("valet",a);
-			pioche.add(carte);
-			Carte carte2 = new Carte("dame",a);
-			pioche.add(carte2);
-			Carte carte3 = new Carte("roi",a);
-			pioche.add(carte3);
 		}
+		Collections.shuffle(pioche);
 	}
 	
 	public void affichePioche(Pioche pioche)
@@ -47,7 +42,10 @@ public class Jeu
 		System.out.println("Pioche :");
 		for(int i=0;i<pioche.size();i++)
 		{
-			System.out.println(pioche.get(i));
+			if(pioche.get(i).cache==false)
+				System.out.println("caché");
+			else
+				System.out.println(pioche.get(i));
 		}
 		System.out.println("");
 	}
@@ -56,7 +54,10 @@ public class Jeu
 	{
 		for(int i=0;i<paquet.size();i++)
 		{
-			System.out.println(paquet.get(i));
+			if(paquet.get(i).cache==false)
+				System.out.println("caché");
+			else
+				System.out.println(paquet.get(i));
 		}
 		System.out.println("");
 	}
@@ -88,7 +89,25 @@ public class Jeu
 			{
 				remplirCartePaquet(pioche,listePaquets[i]);
 			}
+			listePaquets[i].get(listePaquets[i].size()-1).cache=true;
 		}
+	}
+	
+	public Boolean verifDeplacer(Carte carte1, Carte carte2)
+	{
+		return false;
+	}
+	
+	public void deplacerCarte(Paquet paquet1, Paquet paquet2) //paquet1 est la pioche dans laquelle la carte va aller dans pioche2
+	{
+		Carte derniereCarte1 = paquet1.get(paquet1.size()-1);
+		Carte avantDerniereCarte1 = paquet1.get(paquet1.size()-2);
+		Carte derniereCarte2 = paquet2.get(paquet2.size()-1);
+		Carte avantDerniereCarte2 = paquet2.get(paquet2.size()-2);
+		if(paquet1.size()>1 && avantDerniereCarte1.cache==false)
+			avantDerniereCarte1.cache=true;
+		paquet2.add(derniereCarte1);
+		paquet1.remove(derniereCarte1);
 	}
 	
 	public static void main(String[] args)
@@ -98,6 +117,8 @@ public class Jeu
 		jeu.remplirPioche(pioche);
 		jeu.remplirPaquets(pioche);
 		jeu.affichePioche(pioche);
+		jeu.affichePaquets();
+		jeu.deplacerCarte(jeu.paquet2, jeu.paquet3);
 		jeu.affichePaquets();
 	}
 }
