@@ -95,6 +95,13 @@ public class Jeu
 	
 	public Boolean verifDeplacer(Carte carte1, Carte carte2)
 	{
+		if(carte1.getNum() == carte2.getNum()-1)
+		{
+			if(carte1.getTypeCouleur()=="rouge" && carte2.getTypeCouleur() == "noir")
+				return true;
+			if(carte1.getTypeCouleur()=="noir" && carte2.getTypeCouleur() == "rouge")
+				return true;
+		}
 		return false;
 	}
 	
@@ -102,8 +109,6 @@ public class Jeu
 	{
 		Carte derniereCarte1 = paquet1.get(paquet1.size()-1);
 		Carte avantDerniereCarte1 = paquet1.get(paquet1.size()-2);
-		Carte derniereCarte2 = paquet2.get(paquet2.size()-1);
-		Carte avantDerniereCarte2 = paquet2.get(paquet2.size()-2);
 		if(paquet1.size()>1 && avantDerniereCarte1.cache==false)
 			avantDerniereCarte1.cache=true;
 		paquet2.add(derniereCarte1);
@@ -118,7 +123,6 @@ public class Jeu
 		jeu.remplirPaquets(pioche);
 		jeu.affichePioche(pioche);
 		jeu.affichePaquets();
-		jeu.deplacerCarte(jeu.paquet2, jeu.paquet3);
-		jeu.affichePaquets();
+		//jeu.deplacerCarte(jeu.paquet2, jeu.paquet3);
 	}
 }
