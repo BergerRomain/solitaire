@@ -142,12 +142,23 @@ public class Jeu
 			System.out.println("Déplacement impossible !");
 	}
 	
-	public void ajouterPioche(Pioche pioche, int curseur)
+	public void deplacerPioche(Pioche pioche, int curseur)
 	{
 		Scanner sc = new Scanner(System.in);
 		System.out.println("A quel numero de paquet voulez-vous l'ajouter ? (1-7)");
 		int numpaquet = sc.nextInt()-1;
-		if(verifDeplacer(pioche.get(curseur),(liste.get(numpaquet)).get(liste.get(numpaquet).size()-1)))
+		if(liste.get(numpaquet).size() == 0)
+		{
+			if(pioche.get(curseur).getNum() == 13)
+			{
+				pioche.get(curseur).cache=true;
+				liste.get(numpaquet).add(pioche.get(curseur));
+				pioche.remove(curseur);
+			}
+			else
+				System.out.println("Déplacement impossible !");
+		}
+		else if(verifDeplacer(pioche.get(curseur),(liste.get(numpaquet)).get(liste.get(numpaquet).size()-1)))
 		{
 			pioche.get(curseur).cache=true;
 			liste.get(numpaquet).add(pioche.get(curseur));
@@ -216,7 +227,7 @@ public class Jeu
 		jeu.piles.add(jeu.pile3);
 		jeu.piles.add(jeu.pile4);
 		jeu.remplirPioche(pioche);
-		jeu.remplirPaquets(pioche);
+		//jeu.remplirPaquets(pioche);
 		jeu.affichePaquets();
 		jeu.affichePiles();
 		jeu.affichePioche(pioche, curseur);
@@ -238,12 +249,14 @@ public class Jeu
 				jeu.deplacerCarte(jeu.choixDeplacer1(),jeu.choixDeplacer2());
 			break;
 			case 3:
-				jeu.ajouterPioche(pioche,curseur);
-				if(curseur == pioche.size()-1)
+				jeu.deplacerPioche(pioche,curseur);
+				if(curseur == pioche.size())
 					curseur = 0;
 			break;
 			case 4:
 				jeu.ajouterPile(pioche, curseur);
+				if(curseur == pioche.size())
+					curseur = 0;
 			break;
 			}
 			jeu.affichePaquets();
