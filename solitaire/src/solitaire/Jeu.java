@@ -5,6 +5,7 @@ import java.util.*;
 public class Jeu 
 {
 	private ArrayList<Paquet> liste = new ArrayList<Paquet>();
+	private ArrayList<Pile> piles = new ArrayList<Pile>();
 	private Paquet paquet1 = new Paquet();
 	private Paquet paquet2 = new Paquet();
 	private Paquet paquet3 = new Paquet();
@@ -12,6 +13,10 @@ public class Jeu
 	private Paquet paquet5 = new Paquet();
 	private Paquet paquet6 = new Paquet();
 	private Paquet paquet7 = new Paquet();
+	private Pile pile1 = new Pile();
+	private Pile pile2 = new Pile();
+	private Pile pile3 = new Pile();
+	private Pile pile4 = new Pile();
 	
 	public void remplirPioche(Pioche pioche)
 	{
@@ -38,27 +43,24 @@ public class Jeu
 	
 	public void affichePioche(Pioche pioche, int curseur)
 	{
+		pioche.get(curseur).cache=true;
 		System.out.println("Pioche : "+pioche.get(curseur));
-	}
-	
-	public void affichePaquet(Paquet paquet)
-	{
-		for(int i=0;i<paquet.size();i++)
-		{
-			if(paquet.get(i).cache==false)
-				System.out.println("caché");
-			else
-				System.out.println(paquet.get(i));
-		}
-		System.out.println("");
+		pioche.get(curseur).cache=false;
 	}
 	
 	public void affichePaquets()
 	{
 		for(int i=0;i<liste.size();i++)
 		{
-			System.out.println("Paquet"+(i+1)+":");
-			affichePaquet(liste.get(i));
+			System.out.println("Paquet"+(i+1)+" :"+liste.get(i));
+		}
+	}
+	
+	public void affichePiles()
+	{
+		for(int i=0;i<piles.size();i++)
+		{
+			System.out.println("Pile"+(i+1)+" :"+piles.get(i));
 		}
 	}
 	
@@ -93,6 +95,33 @@ public class Jeu
 		}
 		return false;
 	}
+
+	public Boolean verifPile(Carte carte1, int numpile)
+	{
+		Pile pile = piles.get(numpile);
+		if(pile.size() == 0)
+		{
+			if(carte1.getNum() == 1)
+				return true;
+		}
+		else if(carte1.getNum() == (pile.get(pile.size()-1)).getNum()+1 && carte1.getTypeCouleur() == (pile.get(pile.size()-1)).getTypeCouleur())
+			return true;
+		return false;
+	}
+	
+	public Paquet choixDeplacer1()
+	{
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Choisissez le 1er paquet : ");
+		return liste.get(sc.nextInt()-1);
+	}
+	
+	public Paquet choixDeplacer2()
+	{
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Choisissez le 2ème paquet : ");
+		return liste.get(sc.nextInt()-1);
+	}
 	
 	public void deplacerCarte(Paquet paquet1, Paquet paquet2) //paquet1 est la pioche dans laquelle la carte va aller dans pioche2
 	{
@@ -113,20 +142,6 @@ public class Jeu
 			System.out.println("Déplacement impossible !");
 	}
 	
-	public Paquet choixDeplacer1()
-	{
-		Scanner sc = new Scanner(System.in);
-		System.out.println("Choisissez le 1er paquet : ");
-		return liste.get(sc.nextInt()-1);
-	}
-	
-	public Paquet choixDeplacer2()
-	{
-		Scanner sc = new Scanner(System.in);
-		System.out.println("Choisissez le 2ème paquet : ");
-		return liste.get(sc.nextInt()-1);
-	}
-	
 	public void ajouterPioche(Pioche pioche, int curseur)
 	{
 		Scanner sc = new Scanner(System.in);
@@ -139,9 +154,49 @@ public class Jeu
 			pioche.remove(curseur);
 		}
 		else
-			System.out.println("Déplacement impossible");
+			System.out.println("Déplacement impossible !");
 	}
-
+	
+	public void ajouterPile(Pioche pioche,int curseur)
+	{
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Numéro de la pile : (1-4)");
+		int numpile = sc.nextInt()-1;
+		Pile pile = piles.get(numpile);
+		System.out.println("Voulez-vous déplacer une carte :\n-1 De la pioche\n-2 D'un paquet");
+		switch(sc.nextInt())
+		{
+			case 1:
+				if(verifPile(pioche.get(curseur),numpile))
+				{
+					pioche.get(curseur).cache=true;
+					pile.add(pioche.get(curseur));
+					pioche.remove(curseur);
+				}
+				else
+					System.out.println("Déplacement impossible !");
+			break;
+			case 2:
+				System.out.println("Numéro du paquet de la carte à déplacer : (1-7)");
+				int numpaquet = sc.nextInt()-1;
+				Paquet paquet = liste.get(numpaquet);
+				if(verifPile(paquet.get(paquet.size()-1),numpile))
+				{
+					if(paquet.size()>1)
+					{
+						Carte avantDerniereCarte1 = paquet.get(paquet.size()-2);
+						if(avantDerniereCarte1.cache==false)
+						avantDerniereCarte1.cache=true;
+					}
+					pile.add(paquet.get(paquet.size()-1));
+					paquet.remove(paquet.size()-1);
+				}
+				else
+					System.out.println("Déplacement impossible !");
+			break;
+		}
+	}
+	
 	
 	public static void main(String[] args)
 	{
@@ -156,15 +211,19 @@ public class Jeu
 		jeu.liste.add(jeu.paquet5);
 		jeu.liste.add(jeu.paquet6);
 		jeu.liste.add(jeu.paquet7);
+		jeu.piles.add(jeu.pile1);
+		jeu.piles.add(jeu.pile2);
+		jeu.piles.add(jeu.pile3);
+		jeu.piles.add(jeu.pile4);
 		jeu.remplirPioche(pioche);
 		jeu.remplirPaquets(pioche);
 		jeu.affichePaquets();
+		jeu.affichePiles();
 		jeu.affichePioche(pioche, curseur);
-		
 		
 		while(true)
 		{
-			System.out.println("\nQue voulez-vous faire ?\n-1 Piocher\n-2 Déplacer\n-3 Ajouter la carte depuis la pioche");
+			System.out.println("\nQue voulez-vous faire ?\n-1 Piocher\n-2 Déplacer\n-3 Ajouter la carte depuis la pioche\n-4 Ajouter une carte à une pile");
 			int choix = sc.nextInt();
 			switch(choix)
 			{
@@ -183,8 +242,12 @@ public class Jeu
 				if(curseur == pioche.size()-1)
 					curseur = 0;
 			break;
+			case 4:
+				jeu.ajouterPile(pioche, curseur);
+			break;
 			}
 			jeu.affichePaquets();
+			jeu.affichePiles();
 			jeu.affichePioche(pioche, curseur);
 		}
 	}

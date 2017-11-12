@@ -8,20 +8,25 @@ public class Carte
 	
 	public String toString()
 	{
-		String numstring = ""+getNum()+"";
-		switch(getNum()) 
+		if(getCache())
 		{
-			case 11:
-				numstring="valet";
-			break;
-			case 12:
-				numstring="dame";
-			break;
-			case 13:
-				numstring="roi";
-			break;
+			String numstring = ""+getNum()+"";
+			switch(getNum()) 
+			{
+				case 11:
+					numstring="valet";
+				break;
+				case 12:
+					numstring="dame";
+				break;
+				case 13:
+					numstring="roi";
+				break;
+			}
+			return numstring+" "+getCouleur();
 		}
-		return numstring+" "+getCouleur();
+		else
+			return "caché";
 	}
 	
 	public Carte(int num, String couleur,Boolean cache)
