@@ -50,6 +50,10 @@ public class Carte
 		return couleur;
 	}
 
+	public Boolean getCache()
+	{
+		return cache;
+	}
 	
 	public String getTypeCouleur()
 	{
