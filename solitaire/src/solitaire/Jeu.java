@@ -1,8 +1,6 @@
 package solitaire;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Random;
+import java.util.*;
 
 public class Jeu 
 {
@@ -36,6 +34,7 @@ public class Jeu
 		}
 		Collections.shuffle(pioche);
 	}
+	
 	
 	public void affichePioche(Pioche pioche)
 	{
@@ -109,20 +108,38 @@ public class Jeu
 	{
 		Carte derniereCarte1 = paquet1.get(paquet1.size()-1);
 		Carte avantDerniereCarte1 = paquet1.get(paquet1.size()-2);
-		if(paquet1.size()>1 && avantDerniereCarte1.cache==false)
-			avantDerniereCarte1.cache=true;
-		paquet2.add(derniereCarte1);
-		paquet1.remove(derniereCarte1);
+		Carte derniereCarte2 = paquet2.get(paquet2.size()-1);
+		if(verifDeplacer(derniereCarte1,derniereCarte2))
+		{
+			if(paquet1.size()>1 && avantDerniereCarte1.cache==false)
+				avantDerniereCarte1.cache=true;
+			paquet2.add(derniereCarte1);
+			paquet1.remove(derniereCarte1);
+		}
+		else
+			System.out.println("Déplacement impossible !");
 	}
 	
 	public static void main(String[] args)
 	{
 		Jeu jeu = new Jeu();
 		Pioche pioche=new Pioche();
+		Scanner sc = new Scanner(System.in);
 		jeu.remplirPioche(pioche);
 		jeu.remplirPaquets(pioche);
-		jeu.affichePioche(pioche);
 		jeu.affichePaquets();
-		//jeu.deplacerCarte(jeu.paquet2, jeu.paquet3);
+		System.out.println("Que voulez-vous faire ?\n-1 Piocher\n-2 Déplacer");
+		int choix = sc.nextInt();
+		switch(choix)
+		{
+		case 1:
+			System.out.println("Pas implémenté :(");
+		break;
+		case 2:
+			System.out.println("Choisissez ");
+		break;
+		}
+		jeu.deplacerCarte(jeu.paquet2, jeu.paquet3);
+		System.out.println(choix);
 	}
 }

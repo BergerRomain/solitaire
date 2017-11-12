@@ -49,6 +49,7 @@ public class Carte
 	public String getCouleur() {
 		return couleur;
 	}
+
 	
 	public String getTypeCouleur()
 	{
