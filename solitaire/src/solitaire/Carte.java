@@ -13,14 +13,17 @@ public class Carte
 			String numstring = ""+getNum()+"";
 			switch(getNum()) 
 			{
+				case 1:
+					numstring="as de";
+				break;
 				case 11:
-					numstring="valet";
+					numstring="valet de";
 				break;
 				case 12:
-					numstring="dame";
+					numstring="dame de";
 				break;
 				case 13:
-					numstring="roi";
+					numstring="roi de";
 				break;
 			}
 			return numstring+" "+getCouleur();
