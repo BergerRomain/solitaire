@@ -16,37 +16,8 @@ public class Jeu
 	private Pile pile1 = new Pile();
 	private Pile pile2 = new Pile();
 	private Pile pile3 = new Pile();
-	private Pile pile4 = new Pile();
-	
-	public void remplirPioche(Pioche pioche)
-	{
-		String a = "";
-		for(int i=0;i<4;i++)
-		{
-			if(i==0)
-				a="coeur";
-			if(i==1)
-				a="carreau";
-			if(i==2)
-				a="trefle";
-			if(i==3)
-				a="pique";
-			for(int y=1;y<=13;y++)
-			{
-				Carte carte = new Carte(y,a,false);
-				pioche.add(carte);
-			}
-		}
-		Collections.shuffle(pioche);
-	}
-	
-	
-	public void affichePioche(Pioche pioche, int curseur)
-	{
-		pioche.get(curseur).cache=true;
-		System.out.println("Pioche : "+pioche.get(curseur));
-		pioche.get(curseur).cache=false;
-	}
+	private Pile pile4 = new Pile();	
+
 	
 	public void affichePaquets()
 	{
@@ -292,11 +263,11 @@ public class Jeu
 		jeu.piles.add(jeu.pile2);
 		jeu.piles.add(jeu.pile3);
 		jeu.piles.add(jeu.pile4);
-		jeu.remplirPioche(pioche);
+		pioche.remplirPioche(pioche);
 		jeu.remplirPaquets(pioche);
 		jeu.affichePaquets();
 		jeu.affichePiles();
-		jeu.affichePioche(pioche, curseur);
+		pioche.affichePioche(pioche, curseur);
 		int choix;
 		while(jeu.conditiongagner())
 		{
@@ -329,7 +300,7 @@ public class Jeu
 				}
 				jeu.affichePaquets();
 				jeu.affichePiles();
-				jeu.affichePioche(pioche, curseur);
+				pioche.affichePioche(pioche, curseur);
 			}
 			catch(InputMismatchException | NullPointerException | IndexOutOfBoundsException | IllegalArgumentException e)
 			{

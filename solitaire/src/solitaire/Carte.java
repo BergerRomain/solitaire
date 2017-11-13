@@ -36,13 +36,6 @@ public class Carte
 		this.cache=cache;
 	}
 
-
-	public static void main(String[] args)
-	{
-		Carte a = new Carte(1,"coeur",false);
-		System.out.println(a.cache);
-	}
-
 	public int getNum() {
 		return num;
 	}
