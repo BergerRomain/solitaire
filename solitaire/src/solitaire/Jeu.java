@@ -275,14 +275,14 @@ public class Jeu
 		jeu.piles.add(jeu.pile3);
 		jeu.piles.add(jeu.pile4);
 		jeu.remplirPioche(pioche);
-		//jeu.remplirPaquets(pioche);
+		jeu.remplirPaquets(pioche);
 		jeu.affichePaquets();
 		jeu.affichePiles();
 		jeu.affichePioche(pioche, curseur);
 		
 		while(true)
 		{
-			System.out.println("\nQue voulez-vous faire ?\n-1 Piocher\n-2 Déplacer\n-3 Ajouter la carte depuis la pioche\n-4 Ajouter une carte à une pile");
+			System.out.println("\nQue voulez-vous faire ?\n-1 Piocher\n-2 Déplacer\n-3 Ajouter une carte depuis la pioche\n-4 Ajouter une carte à une pile");
 			int choix = sc.nextInt();
 			switch(choix)
 			{
