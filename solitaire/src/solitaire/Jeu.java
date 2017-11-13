@@ -22,17 +22,13 @@ public class Jeu
 	public void affichePaquets()
 	{
 		for(int i=0;i<liste.size();i++)
-		{
 			System.out.println("Paquet"+(i+1)+" :"+liste.get(i));
-		}
 	}
 	
 	public void affichePiles()
 	{
 		for(int i=0;i<piles.size();i++)
-		{
 			System.out.println("Pile"+(i+1)+" :"+piles.get(i));
-		}
 	}
 	
 	public void remplirCartePaquet(Pioche pioche,Paquet paquet)
@@ -48,9 +44,7 @@ public class Jeu
 		for(int i=0;i<liste.size();i++)
 		{
 			for(int y=0;y<i+1;y++)
-			{
 				remplirCartePaquet(pioche,liste.get(i));
-			}
 			(liste.get(i)).get((liste.get(i)).size()-1).cache=true;
 		}
 	}
@@ -86,9 +80,7 @@ public class Jeu
 		for(int i=0;i<7;i++)
 		{
 			if(liste.get(i).isEmpty())
-			{
-				a++;
-			}
+				a++;		
 		}
 		if(a==7)
 		{
@@ -150,11 +142,7 @@ public class Jeu
 						paquet1.remove(derniereCarte1);
 					}
 					else
-					{
-						System.out.println("carte1 : "+derniereCarte1);
-						System.out.println("carte2 : "+derniereCarte2);
 						System.out.println("Déplacement impossible !");
-					}
 				}
 			}
 			else
