@@ -109,37 +109,61 @@ public class Jeu
 		return false;
 	}
 	
-	public Paquet choixDeplacer1()
+	
+	public void deplacerCarte() //paquet1 est la pioche dans laquelle la carte va aller dans pioche2
 	{
 		Scanner sc = new Scanner(System.in);
 		System.out.println("Choisissez le 1er paquet : ");
-		return liste.get(sc.nextInt()-1);
-	}
-	
-	public Paquet choixDeplacer2()
-	{
-		Scanner sc = new Scanner(System.in);
+		paquet1 = liste.get(sc.nextInt()-1);
 		System.out.println("Choisissez le 2ème paquet : ");
-		return liste.get(sc.nextInt()-1);
-	}
-	
-	public void deplacerCarte(Paquet paquet1, Paquet paquet2) //paquet1 est la pioche dans laquelle la carte va aller dans pioche2
-	{
+		paquet2 = liste.get(sc.nextInt()-1);
+		System.out.println("Donnez le nombre de cartes à déplacer : ");
+		int numcarte = sc.nextInt();
 		Carte derniereCarte1 = paquet1.get(paquet1.size()-1);
-		Carte derniereCarte2 = paquet2.get(paquet2.size()-1);
-		if(verifDeplacer(derniereCarte1,derniereCarte2))
+		Carte derniereCarte2 = paquet1.get(paquet1.size()-1);
+		
+			
+		for(int i=0;i<numcarte;i++)
 		{
-			if(paquet1.size()>1)
+			if(paquet2.size()>0)
+				derniereCarte2 = paquet2.get(paquet2.size()-1);
+			derniereCarte1 = paquet1.get(paquet1.size()-numcarte+i);
+			if(paquet2.size()==0)
 			{
-				Carte avantDerniereCarte1 = paquet1.get(paquet1.size()-2);
-				if(avantDerniereCarte1.cache==false)
-				avantDerniereCarte1.cache=true;
+				if(derniereCarte1.getNum()==13)
+				{
+					if(paquet1.size()>1)
+					{
+						Carte avantDerniereCarte1 = paquet1.get(paquet1.size()-2);
+						if(avantDerniereCarte1.cache==false)
+						avantDerniereCarte1.cache=true;
+					}
+					paquet2.add(derniereCarte1);
+					paquet1.remove(derniereCarte1);
+				}
+				else
+					System.out.println("Déplacement impossible !");
+					
 			}
-			paquet2.add(derniereCarte1);
-			paquet1.remove(derniereCarte1);
+			else if(verifDeplacer(derniereCarte1,derniereCarte2))
+			{
+				derniereCarte2 = paquet2.get(paquet2.size()-1);
+				if(paquet1.size()>1)
+				{
+					Carte avantDerniereCarte1 = paquet1.get(paquet1.size()-2);
+					if(avantDerniereCarte1.cache==false)
+					avantDerniereCarte1.cache=true;
+				}
+				paquet2.add(derniereCarte1);
+				paquet1.remove(derniereCarte1);
+			}
+			else
+			{
+				System.out.println("carte1 : "+derniereCarte1);
+				System.out.println("carte2 : "+derniereCarte2);
+				System.out.println("Déplacement impossible !");
+			}
 		}
-		else
-			System.out.println("Déplacement impossible !");
 	}
 	
 	public void deplacerPioche(Pioche pioche, int curseur)
@@ -227,7 +251,7 @@ public class Jeu
 		jeu.piles.add(jeu.pile3);
 		jeu.piles.add(jeu.pile4);
 		jeu.remplirPioche(pioche);
-		//jeu.remplirPaquets(pioche);
+		jeu.remplirPaquets(pioche);
 		jeu.affichePaquets();
 		jeu.affichePiles();
 		jeu.affichePioche(pioche, curseur);
@@ -246,7 +270,7 @@ public class Jeu
 					curseur ++;
 			break;
 			case 2:
-				jeu.deplacerCarte(jeu.choixDeplacer1(),jeu.choixDeplacer2());
+				jeu.deplacerCarte();
 			break;
 			case 3:
 				jeu.deplacerPioche(pioche,curseur);
