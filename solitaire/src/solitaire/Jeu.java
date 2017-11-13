@@ -84,7 +84,7 @@ public class Jeu
 		}
 	}
 	
-	public Boolean verifDeplacer(Carte carte1, Carte carte2)
+	public boolean verifDeplacer(Carte carte1, Carte carte2)
 	{
 		if(carte1.getNum() == carte2.getNum()-1)
 		{
@@ -96,7 +96,7 @@ public class Jeu
 		return false;
 	}
 
-	public Boolean verifPile(Carte carte1, int numpile)
+	public boolean verifPile(Carte carte1, int numpile)
 	{
 		Pile pile = piles.get(numpile);
 		if(pile.size() == 0)
@@ -109,6 +109,23 @@ public class Jeu
 		return false;
 	}
 	
+	public boolean conditiongagner()
+	{
+		int a=0;
+		for(int i=0;i<7;i++)
+		{
+			if(liste.get(i).isEmpty())
+			{
+				a++;
+			}
+		}
+		if(a==7)
+		{
+			System.out.println("Bien joué !");
+			return false;
+		}
+		return true;
+	}
 	
 	public void deplacerCarte() //paquet1 est la pioche dans laquelle la carte va aller dans pioche2
 	{
@@ -259,6 +276,7 @@ public class Jeu
 	
 	public static void main(String[] args)
 	{
+	
 		int curseur = 0;
 		Jeu jeu = new Jeu();
 		Pioche pioche=new Pioche();
@@ -279,37 +297,45 @@ public class Jeu
 		jeu.affichePaquets();
 		jeu.affichePiles();
 		jeu.affichePioche(pioche, curseur);
-		
-		while(true)
+		int choix;
+		while(jeu.conditiongagner())
 		{
-			System.out.println("\nQue voulez-vous faire ?\n-1 Piocher\n-2 Déplacer\n-3 Ajouter une carte depuis la pioche\n-4 Ajouter une carte à une pile");
-			int choix = sc.nextInt();
-			switch(choix)
+			try 
 			{
-			case 1:
-				
-				if(curseur == pioche.size()-1)
-					curseur = 0;
-				else
-					curseur ++;
-			break;
-			case 2:
-				jeu.deplacerCarte();
-			break;
-			case 3:
-				jeu.deplacerPioche(pioche,curseur);
-				if(curseur == pioche.size())
-					curseur = 0;
-			break;
-			case 4:
-				jeu.ajouterPile(pioche, curseur);
-				if(curseur == pioche.size())
-					curseur = 0;
-			break;
+				System.out.println("\nQue voulez-vous faire ?\n-1 Piocher\n-2 Déplacer\n-3 Ajouter une carte depuis la pioche\n-4 Ajouter une carte à une pile");
+				choix = sc.nextInt();
+				switch(choix)
+				{
+				case 1:
+						
+					if(curseur == pioche.size()-1)
+						curseur = 0;
+					else
+						curseur ++;
+				break;
+				case 2:
+					jeu.deplacerCarte();
+				break;
+				case 3:
+					jeu.deplacerPioche(pioche,curseur);
+					if(curseur == pioche.size())
+						curseur = 0;
+				break;
+				case 4:
+					jeu.ajouterPile(pioche, curseur);
+					if(curseur == pioche.size())
+						curseur = 0;
+				break;
+				}
+				jeu.affichePaquets();
+				jeu.affichePiles();
+				jeu.affichePioche(pioche, curseur);
 			}
-			jeu.affichePaquets();
-			jeu.affichePiles();
-			jeu.affichePioche(pioche, curseur);
+			catch(InputMismatchException | NullPointerException | IndexOutOfBoundsException | IllegalArgumentException e)
+			{
+				System.out.println("Erreur ! "+e);
+				sc.next();
+			}
 		}
 	}
 }
