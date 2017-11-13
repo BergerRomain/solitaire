@@ -116,7 +116,7 @@ public class Jeu
 		System.out.println("Choisissez le 1er paquet : ");
 		int num = sc.nextInt()-1;
 		paquet1 = liste.get(num);
-		if(num>=0 && num <=6)
+		if(num>=0 && num <=6 && liste.get(num).size()>0)
 		{
 			System.out.println("Choisissez le 2ème paquet : ");
 			num = sc.nextInt()-1;
@@ -127,8 +127,6 @@ public class Jeu
 				int numcarte = sc.nextInt();
 				Carte derniereCarte1 = paquet1.get(paquet1.size()-1);
 				Carte derniereCarte2 = paquet1.get(paquet1.size()-1);
-				
-					
 				for(int i=0;i<numcarte;i++)
 				{
 					if(paquet2.size()>0)
@@ -171,7 +169,11 @@ public class Jeu
 					}
 				}
 			}
+			else
+				System.out.println("Entre 1 et 7 !");
 		}
+		else
+			System.out.println("Entre 1 et 7 ou paquet vide !");
 	}
 	
 	public void deplacerPioche(Pioche pioche, int curseur)
